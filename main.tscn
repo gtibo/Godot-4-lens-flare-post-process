@@ -1,0 +1,107 @@
+[gd_scene load_steps=12 format=3 uid="uid://dw4hhdsg8mder"]
+
+[ext_resource type="PackedScene" uid="uid://b5mroaai0ix25" path="res://player/player.tscn" id="3_1bvp3"]
+[ext_resource type="Material" uid="uid://c3jlrf6rydso1" path="res://assets/base_mat.tres" id="3_2upgd"]
+[ext_resource type="Script" uid="uid://vi3k65tpcilq" path="res://lens_flare/lens_flare_post_process.gd" id="3_h2yge"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0xm2m"]
+
+[sub_resource type="Sky" id="Sky_1bvp3"]
+sky_material = SubResource("ProceduralSkyMaterial_0xm2m")
+
+[sub_resource type="Environment" id="Environment_0xm2m"]
+background_mode = 2
+sky = SubResource("Sky_1bvp3")
+tonemap_mode = 2
+ssao_enabled = true
+ssao_radius = 0.25
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_intensity = 8.0
+volumetric_fog_density = 0.01
+adjustment_enabled = true
+adjustment_saturation = 1.8
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_h2yge"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("3_h2yge")
+metadata/_custom_type_script = "uid://vi3k65tpcilq"
+
+[sub_resource type="Compositor" id="Compositor_1bvp3"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_h2yge")])
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_h2yge"]
+top_radius = 1.0
+bottom_radius = 1.0
+height = 20.0
+radial_segments = 16
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h2yge"]
+size = Vector2(1000, 1000)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_h2yge"]
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0xm2m")
+compositor = SubResource("Compositor_1bvp3")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("3_1bvp3")]
+transform = Transform3D(-0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, 5.26795, 0, -13.1244)
+
+[node name="CylinderMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+material_override = ExtResource("3_2upgd")
+mesh = SubResource("CylinderMesh_h2yge")
+
+[node name="CylinderMesh2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 10, 7)
+material_override = ExtResource("3_2upgd")
+mesh = SubResource("CylinderMesh_h2yge")
+
+[node name="CylinderMesh3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 10, 14)
+material_override = ExtResource("3_2upgd")
+mesh = SubResource("CylinderMesh_h2yge")
+
+[node name="CylinderMesh4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 10, -17)
+material_override = ExtResource("3_2upgd")
+mesh = SubResource("CylinderMesh_h2yge")
+
+[node name="CylinderMesh5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 10, -27)
+material_override = ExtResource("3_2upgd")
+mesh = SubResource("CylinderMesh_h2yge")
+
+[node name="CylinderMesh6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 10, 40)
+material_override = ExtResource("3_2upgd")
+mesh = SubResource("CylinderMesh_h2yge")
+
+[node name="CylinderMesh7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 10, -6)
+material_override = ExtResource("3_2upgd")
+mesh = SubResource("CylinderMesh_h2yge")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="GroundMesh" type="MeshInstance3D" parent="Ground"]
+material_override = ExtResource("3_2upgd")
+mesh = SubResource("PlaneMesh_h2yge")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("WorldBoundaryShape3D_h2yge")
