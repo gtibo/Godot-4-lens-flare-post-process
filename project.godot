@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Ray Marching"
+config/name="Lens Flare"
 run/main_scene="uid://dw4hhdsg8mder"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=60
